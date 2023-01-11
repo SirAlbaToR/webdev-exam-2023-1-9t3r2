@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js" defer></script>
+        <title>Hello company</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-red mb-3">
+            <div class="container-fluid">
+                <i class="fa-solid fa-globe me-2"></i>
+                <a class="navbar-brand" href="#">Hello company</a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="#about-us">О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#routes">Маршруты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="personal-cab">Личный кабинет</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="alerts"></div>
+
+        <div class="about container text-center mb-5" id="about-us">
+            <div class="row">
+                <div class="col">
+                    <img src="images/theatre.jpg" class="img-fluid" alt="Большой
+                        Театр">
+                    Наша компания предоставляет услуги
+                    проведения экскурсий по самым различным местам Москвы
+                </div>
+                <div class="col">
+                    <img src="images/VDNH.jpg" class="img-fluid" alt="ВДНХ">
+                    Только у нас Вы можете выбрать не
+                    только маршрут, но и гида!
+                </div>
+                <div class="col">
+                    <img src="images/kremlin.jpg" class="img-fluid"
+                        alt="Кремль">А так же мы предоставляем персональные
+                    экскурсии!
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <input type="search" id="inputSearch" class="form-control"
+                aria-describedby="searchHelpBlock">
+            <div id="searchHelpBlock" class="form-text mb-2">
+                Введите название маршрута
+            </div>
+        </div>
+        <div class="container">
+            <div class="mb-3">
+                <label for="selectAtt" class="form-label">Через какую
+                    достопримечательность должен проходить маршрут?</label>
+                <select id="selectAtt" class="form-select">
+                    <option>Disabled select</option>
+                    <option>Disabled select2</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="map">карта</div>
+
+        <div class="container routes" id="routes">
+            <div class="route text-center">
+                <div class="name">Нескучный сад</div>
+                <div class="desc">Нескучный сад – старейший парк Москвы. В
+                    середине
+                    XVIII века здесь, в своём имении, известный московский
+                    миллионер
+                    Прокопий Демидов построил дворец, получивший название
+                    «Демидовский». На крутом берегу Москвы-реки он устроил
+                    насыпные
+                    террасы и разбил огромный сад с собранием более 2000 видов
+                    растений. При следующем владельце, графе А. Г.
+                    Орлове-Чесменском, на территории усадьбы появился целый ряд
+                    павильонов, беседок и различных садовых «затей», многие из
+                    которых сохранились до наших дней. Когда усадьбу купил
+                    император
+                    Николай I, он дал владению название Нескучный сад. Именно
+                    так
+                    называлось имение, принадлежавшее князю Н. Ю. Трубецкому, с
+                    большим парком, с зелеными лабиринтами, диковинными
+                    беседками и
+                    оранжереями.</div>
+                <div class="mainObj">Главная достопримечательность: Театр
+                    Горького</div>
+                <button type="button" class="btn btn-success">Выбрать этот
+                    маршрут</button>
+            
+            </div>
+        </div>
+        <div class="routePgn">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="#routes routePgn" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link routePgn" href="#routes">1</a></li>
+                    <li class="page-item"><a class="page-link routePgn" href="#routes">2</a></li>
+                    <li class="page-item"><a class="page-link routePgn" href="#routes">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#routes routePgn" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="input-group container">
+            <select class="form-select mb-3"
+                aria-label=".form-select-lg example">
+                <option selected>Знание языков гидом</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Опыт работы гида</span>
+                <select class="form-select form-select-lg"
+                    aria-label=".form-select-lg example">
+                    <option selected>От</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <select class="form-select form-select-lg"
+                    aria-label=".form-select-lg example">
+                    <option selected>До</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+
+            <div class="guides container" id="guides">
+                <ul class="list-group">
+                    <li class="guide d-flex justify-content-between
+                        list-group-item">
+                        <div class="name">Марвин Ватсон</div>
+                        <div class="lang">Корейский</div>
+                        <div class="price">3584 руб/ч</div>
+                        <div class="epx">6 лет</div>
+                        <button type="button" class="btn btn-success">Выбрать
+                            этого
+                            гида</button>
+                    </li>
+                </ul>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <div class="container">
+            <button type="button" class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
+                Оформить заказ
+            </button>
+        </div>
+
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <span class="text-muted">Вы можете написать нам на почту
+                    schturov.r@yandex.ru</span>
+            </div>
+        </footer>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal
+                            title</h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://kit.fontawesome.com/8be9e26b82.js"
+            crossorigin="anonymous"></script>
+    </body>
+</html>

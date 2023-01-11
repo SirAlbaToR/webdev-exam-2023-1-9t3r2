@@ -1,0 +1,63 @@
+nav {
+    background: red;
+    border-bottom: 4px solid darkred;
+}
+
+nav div {
+    color: yellow;
+}
+
+nav a{
+    color: yellow;
+}
+
+a:hover{
+    color:yellow;
+}
+
+.nav-link{
+    color: yellow;
+}
+
+.navbar--toggler-icon{
+    color:yellow;
+}
+
+.about .col{
+    padding: 0;
+    border: 3px solid green;
+    margin-bottom: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 20px;
+}
+
+.about .row img {
+    border-radius: 15px;
+    width: 100%;
+    height: 200px;
+}
+
+div nav{
+    background-color: white;
+    border: 0;
+}
+
+.route{
+    margin: 2px 2px 2px 2px;
+    border: green solid 2px;
+    border-radius: 20px;
+    padding: 3px;
+}
+
+.mainObj{
+    color: blue;
+    
+}
+
+.guide{
+    margin: 2px 2px 2px 2px;
+    border: green solid 2px;
+    border-radius: 20px;
+    padding: 3px;
+}
