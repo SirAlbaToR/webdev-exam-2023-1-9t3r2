@@ -205,7 +205,7 @@ async function guidesForRouteLoad() {
             } else {
                 pagination.className = 'pagination justify-content-center';
                 let end_position;
-                if (guides.length < 11) {
+                if (guidesSearched.length < 11) {
                     end_position = 2;
                 } else {
                     end_position = 3;
