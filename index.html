@@ -90,14 +90,17 @@
         <div class="routePgn">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link routePgn" href="#routes">1</a></li>
-                    <li class="page-item"><a class="page-link routePgn" href="#routes">2</a></li>
-                    <li class="page-item"><a class="page-link routePgn" href="#routes">3</a></li>
+                    <li class="page-item"><a class="page-link routePgn"
+                            href="#routes">1</a></li>
+                    <li class="page-item"><a class="page-link routePgn"
+                            href="#routes">2</a></li>
+                    <li class="page-item"><a class="page-link routePgn"
+                            href="#routes">3</a></li>
                 </ul>
             </nav>
         </div>
 
-        <div class="input-group container">
+        <div class="input-group container d-none" id="guides-table">
             <select class="form-select mb-3"
                 aria-label=".form-select-lg example">
                 <option selected>Знание языков гидом</option>
@@ -108,14 +111,14 @@
             <div class="input-group mb-3">
                 <span class="input-group-text">Опыт работы гида</span>
                 <select class="form-select form-select-lg"
-                    aria-label=".form-select-lg example">
+                    aria-label=".form-select-lg example" id="guide-min">
                     <option selected>От</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
                 <select class="form-select form-select-lg"
-                    aria-label=".form-select-lg example">
+                    aria-label=".form-select-lg example" id="guide-max">
                     <option selected>До</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -123,18 +126,28 @@
                 </select>
             </div>
 
-            <div class="guides container d-none" id="guides">
-                <ul class="list-group guides-list">
-                </ul>
+            <div class="guides container" id="guides">
+                <table class="table guides-list">
+                    <thead>
+                        <tr>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Язык</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Опыт</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center d-none">
+                    <ul class="pagination justify-content-center">
                     </ul>
                 </nav>
             </div>
         </div>
 
         <!-- Button trigger modal -->
-        <div class="container">
+        <div class="container d-none">
             <button type="button" class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop">

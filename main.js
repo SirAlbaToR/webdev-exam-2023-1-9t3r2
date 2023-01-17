@@ -1,14 +1,19 @@
 let routeNameSelect = '';
-let routeObjSelect = '';
+let routeObjSelect = String('');
 let routePage = 0;
 let amountOfPagesForRoutes;
 let choosenRoute;
 let guidePage = 0;
 let choosenGuide;
 let amountOfPagesForGuides;
+let guideLangFilter = '';
+let guideExpMinFilter;
+let guideExpMaxFilter;
 
 function chooseGuide(event){
-    console.log(event.target.id);
+    choosenGuide = event.target.id;
+    event.target.innerHTML = 'Этот гид выбран';
+    
 }
 
 function pgnGuidesHandler(event){
@@ -31,14 +36,70 @@ async function guidesForRouteLoad(){
         let getGuides = await fetch(guidesUrl).then(response => response.json().then(data => {
         guides = data;
         }));
-        let workingSpace = document.querySelector('.guides-list');
+        let workingSpace = document.querySelector('#guides').querySelector('tbody');
         workingSpace.innerHTML = '';
-        console.log(guides.length);
-        let pagination = document.querySelector('.guides').querySelector('.pagination');
-        amountOfPagesForGuides = Math.ceil(guides.length/5);
+        let guidesLangSearched = ['Знание языков гидом'];
+        for(let i = 0; i < guides.length; i++){
+            if(!guidesLangSearched.includes(guides[i].language)){
+                guidesLangSearched.push(guides[i].language);
+            }
+        }
+        guidesLangSearched.push('');
+        let guidesLangSelector = document.querySelector('#guides-table').querySelector('select');
+        guidesLangSelector.innerHTML = '';
+        for(let i = 0; i < guidesLangSearched.length; i++){
+            let option = document.createElement('option');
+            let optionText = document.createTextNode(guidesLangSearched[i]);
+            option.appendChild(optionText);
+            guidesLangSelector.appendChild(option);
+        }
+        let guidesExpSearched = [];
+        let expMaxSelector = document.querySelector('#guide-max');
+        expMaxSelector.innerHTML = '';
+        let expMinSelector = document.querySelector('#guide-min');
+        expMinSelector.innerHTML = '';
+        for(let i = 0; i < guides.length; i++){
+            if(!guidesExpSearched.includes(guides[i].workExperience)){
+                guidesExpSearched.push(guides[i].workExperience);
+            }
+        }
+        console.log(guidesExpSearched);
+        let minGuideExp = Math.min.apply(Math, guidesExpSearched);
+        let maxGuideExp = Math.max.apply(Math, guidesExpSearched);
+        let optionMin = document.createElement('option');
+        let optionMinText = document.createTextNode('От');
+        optionMin.appendChild(optionMinText);
+        let optionMax = document.createElement('option');
+        let optionMaxText = document.createTextNode('До');
+        optionMax.appendChild(optionMaxText);
+        expMaxSelector.appendChild(optionMax);
+        expMinSelector.appendChild(optionMin); 
+        for(let i = minGuideExp; i <= maxGuideExp; i++){
+            let optionMin = document.createElement('option');
+            let optionMinText = document.createTextNode(i);
+            optionMin.appendChild(optionMinText);
+            let optionMax = document.createElement('option');
+            let optionMaxText = document.createTextNode(i);
+            optionMax.appendChild(optionMaxText);
+            expMaxSelector.appendChild(optionMax);
+            expMinSelector.appendChild(optionMin); 
+        };
+        let guidesSearched = [];
+        for(let i = 0; i < guides.length; i++){
+            if(guides[i].language.includes(guideLangFilter)){
+                if((guides[i].workExperience >= guideExpMinFilter) &&
+                    (guides[i].workExperience <= guideExpMaxFilter)){
+                        guidesSearched.push(guides[i]);
+                }
+            }
+        }
+        console.log(guidesSearched);
+        let pagination = document.querySelector('#guides').querySelector('.pagination');
+        console.log(pagination);
+        amountOfPagesForGuides = Math.ceil(guidesSearched.length/5);
         if(guidePage == 0){
             pagination.innerHTML = '';
-            if(guides.length == undefined || guides.length < 6){
+            if(guides.length == undefined || guidesSearched.length < 6){
                 pagination.className = 'pagination justify-content-center d-none';
             }
             else{
@@ -64,38 +125,40 @@ async function guidesForRouteLoad(){
             }
         }
             let end_position;
-            if(guidePage*5 + 5 < guides.length){
+            if(guidePage*5 + 5 < guidesSearched.length){
                 end_position = 5;
             }
             else{
-                end_position = guides.length - guidePage*5;
+                end_position = guidesSearched.length - guidePage*5;
             }
             for(let i = 0; i < end_position; i++){
-                curentGuide = guides[guidePage*5 + i];
-                let cell = document.createElement('li');
-                cell.className = 'guide d-flex justify-content-between list-group-item'
-                let name = document.createElement('div');
+                curentGuide = guidesSearched[guidePage*5 + i];
+                let cell = document.createElement('tr');
+                cell.className = 'guide'
+                let name = document.createElement('td');
                 let nameText = document.createTextNode(curentGuide.name);
                 name.className = 'name';
                 name.appendChild(nameText);
                 cell.appendChild(name);
-                let language = document.createElement('div');
+                let language = document.createElement('td');
                 let languageText = document.createTextNode(curentGuide.language);
                 language.className = 'lang';
                 language.appendChild(languageText)
                 cell.appendChild(language);
-                let price = document.createElement('div');
+                let price = document.createElement('td');
                 let priceText = document.createTextNode(curentGuide.pricePerHour + ' руб/ч');
                 price.className = 'price';
                 price.appendChild(priceText);
                 cell.appendChild(price);
-                let experience = document.createElement('div');
+                let experience = document.createElement('td');
                 let experienceText = document.createTextNode(curentGuide.workExperience);
                 experience.className = 'exp';
+                experience.appendChild(experienceText);
                 cell.appendChild(experience);
+                let btnWrap = document.createElement('td')
                 let btn = document.createElement('button');
                 let btnText;
-                if(guidePage*3 + i == choosenGuide){
+                if('guide' + curentGuide.id == choosenGuide){
                     btnText = document.createTextNode('Этот гид выбран');
                 }
                 else{
@@ -103,14 +166,15 @@ async function guidesForRouteLoad(){
                 }
                 btn.type = 'button';
                 btn.className = 'btn btn-success';
-                btn.id = 'guide' + String(guidePage*3 + i);
+                btn.id = 'guide' + curentGuide.id;
                 btn.appendChild(btnText);
                 btn.onclick = chooseGuide;
-                cell.appendChild(btn);
+                btnWrap.appendChild(btn);
+                cell.appendChild(btnWrap);
                 workingSpace.appendChild(cell);
         }
     } catch(err){
-        let workingSpace = document.querySelector('.guides-list');
+        let workingSpace = document.querySelector('.guides');
         workingSpace.innerHTML = '';
         let pagination = workingSpace.getElementsByClassName('pagination');
         pagination.className = "pagination justify-content-center d-none";
@@ -128,7 +192,11 @@ function chooseRoute(event){
             choosenRoute = event.target.id;
         }
     }
+    let guideTable = document.querySelector('#guides-table')
+    guideTable.className = 'input-group container';
     guidePage = 0;
+    guideExpMinFilter = 'От';
+    guideExpMaxFilter = 'До';
     let guidesPlace = document.querySelector('.guides');
     guidesPlace.className = 'guides container';
     event.target.innerHTML = 'Этот маршрут выбран';
@@ -148,7 +216,21 @@ function routePgnHandler(event){
     }
 }
 
-
+function initPgnRoutes(){
+    let routesPgn = document.querySelector('.routePgn');
+    let routePgnBtn = routesPgn.getElementsByTagName('a')
+    routePgnBtn[0].className = 'page-link routePgn';
+    routePgnBtn[1].className = 'page-link routePgn';
+    routePgnBtn[2].className = 'page-link routePgn';
+    if(amountOfPagesForRoutes == 1 || amountOfPagesForRoutes == 0){
+        routePgnBtn[0].classList.add('d-none');
+        routePgnBtn[1].classList.add('d-none');
+        routePgnBtn[2].classList.add('d-none');
+    }
+    else if(amountOfPagesForRoutes == 2){
+        routePgnBtn[2].classList.add('d-none')
+    }
+};
 routesLoad = async function(){
     let routes;
     let routesUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes?api_key=35a7578a-4292-405f-845e-fce51f65ee57';
@@ -158,52 +240,102 @@ routesLoad = async function(){
     let workingSpace = document.querySelector('.routes');
     workingSpace.innerHTML = '';
     let routesSearched = [];
+    let routesObjs = [''];
+    for(let i = 0; i < routes.length; i++){
+        if(!routesObjs.includes(routes[i].mainObject)){
+            routesObjs.push(routes[i].mainObject.substring(0,120) + '...');
+        }
+    }
+    routesObjs.push('');
     for(let i = 0; i < routes.length; i++){
         if(routes[i].name.includes(routeNameSelect)){
-            routesSearched.push(routes[i]);
+            if(routes[i].mainObject.includes(routeObjSelect)){
+                routesSearched.push(routes[i]);
+            }
         }
     }
     amountOfPagesForRoutes = Math.ceil(routesSearched.length/3);
-    for(let i = 0; i < 3; i++){
-        curentRoute = routesSearched[routePage*3 + i]
-        let cell =  document.createElement('div');
-        cell.className = 'route text-center';
-        let name = document.createElement('div');
-        let nameText = document.createTextNode(curentRoute.name);
-        name.className = 'name';
-        name.appendChild(nameText);
-        cell.appendChild(name);
-        let desc = document.createElement('div');
-        let descText = document.createTextNode(curentRoute.description);
-        desc.className = 'desc';
-        desc.appendChild(descText);
-        cell.appendChild(desc);
-        let mainObj = document.createElement('div');
-        let mainObjText = document.createTextNode("Достопримечательности: " + curentRoute.mainObject);
-        mainObj.className = 'mainObj';
-        mainObj.appendChild(mainObjText);
-        cell.appendChild(mainObj);
-        let btn = document.createElement('button');
-        let btnText;
-        if(routePage*3 + i == choosenRoute){
-            btnText = document.createTextNode('Этот маршрут выбран');
-        }
-        else{
-            btnText = document.createTextNode('Выбрать этот маршрут');
-        }
-        btn.appendChild(btnText);
-        btn.type = 'button';
-        btn.className = 'btn btn-success';
-        btn.id = routePage*3 + i;
-        btn.onclick = chooseRoute;
-        cell.appendChild(btn);
-        workingSpace.appendChild(cell);
+    initPgnRoutes();
+    let routeObjSelector = document.querySelector('#selectObj');
+    routeObjSelector.innerHTML = '';
+    for(let i = 0; i < routesObjs.length; i++){
+        let option = document.createElement('option');
+        let optionText = document.createTextNode(routesObjs[i]);
+        option.appendChild(optionText);
+        routeObjSelector.appendChild(option);
     }
+
+    if(amountOfPagesForRoutes != 0){
+        for(let i = 0; i < 3 && routePage*3 + i < routesSearched.length; i++){
+            curentRoute = routesSearched[routePage*3 + i]
+            let cell =  document.createElement('div');
+            cell.className = 'route text-center';
+            let name = document.createElement('div');
+            let nameText = document.createTextNode(curentRoute.name);
+            name.className = 'name';
+            name.appendChild(nameText);
+            cell.appendChild(name);
+            let desc = document.createElement('div');
+            let descText = document.createTextNode(curentRoute.description);
+            desc.className = 'desc';
+            desc.appendChild(descText);
+            cell.appendChild(desc);
+            let mainObj = document.createElement('div');
+            let mainObjText = document.createTextNode("Достопримечательности: " + curentRoute.mainObject);
+            mainObj.className = 'mainObj';
+            mainObj.appendChild(mainObjText);
+            cell.appendChild(mainObj);
+            let btn = document.createElement('button');
+            let btnText;
+            if(curentRoute.id == choosenRoute){
+                btnText = document.createTextNode('Этот маршрут выбран');
+            }
+            else{
+                btnText = document.createTextNode('Выбрать этот маршрут');
+            }
+            btn.appendChild(btnText);
+            btn.type = 'button';
+            btn.className = 'btn btn-success';
+            btn.id = curentRoute.id;
+            btn.onclick = chooseRoute;
+            cell.appendChild(btn);
+            workingSpace.appendChild(cell);
+        }
+    }
+}
+
+function objSelectChange(event){
+    routeObjSelect = event.target.value.substring(0,event.target.value.length - 3);
+    routePage = 0;
+    routesLoad();
 }
 
 function searchNameInput(event){
     routeNameSelect = event.target.value;
-    routesLoad()
+    routePage = 0;
+    routesLoad();
+}
+
+function guideLangChange(event){
+    guideLangFilter = event.target.value;
+    guidesForRouteLoad();
+}
+
+function changeGuideExp(event){
+
+    if(event.target.id == 'guide-min'){
+        guideExpMinFilter = event.target.value;
+    }
+    else{
+        guideExpMaxFilter = event.target.value;
+    }
+    if((guideExpMaxFilter != 'До' && guideExpMaxFilter != '') &&
+    (guideExpMinFilter != 'От' && guideExpMinFilter != '') &&
+    (guideExpMaxFilter >= guideExpMinFilter)){
+        guidesForRouteLoad();
+    }
+    console.log(guideExpMaxFilter);
+    console.log(guideExpMinFilter);
 }
 
 window.onload = function(){
@@ -217,6 +349,14 @@ window.onload = function(){
         };
         let routeNameSearchInput = document.querySelector('input');
         routeNameSearchInput.onchange = searchNameInput;
+        let routeObjSelect = document.querySelector('#selectObj');
+        routeObjSelect.onchange = objSelectChange;
+        let guideLangSelect = document.querySelector('#guides-table').querySelector('select');
+        guideLangSelect.onchange = guideLangChange;
+        let guideMinExpSelect = document.querySelector('#guide-min');
+        guideMinExpSelect.onchange = changeGuideExp;
+        let guideMaxExpSelect = document.querySelector('#guide-max');
+        guideMaxExpSelect.onclick = changeGuideExp;
     } catch(err){
 
     }
