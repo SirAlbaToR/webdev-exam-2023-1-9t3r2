@@ -13,7 +13,7 @@ let guideExpMinFilter;
 let guideExpMaxFilter;
 let guidePrice;
 
-function errorMsg(error) {
+function errorMsg(error) { //функция вывода ошибки на экран
     let errorPlace = document.querySelector('#error-msg');
     errorPlace.className = 'alert alert-danger';
     errorPlace.innerHTML = error;
@@ -23,7 +23,7 @@ function errorMsg(error) {
     }, 3000);
 }
 
-function modalOpen(event) {
+function modalOpen(event) { //функция работы с модальным окном
     let workingSpace = document.querySelector('.modal-body');
     let guideNamePlace = workingSpace.querySelector('#guide-name');
     guideNamePlace.innerHTML = choosenGuideName;
@@ -118,7 +118,7 @@ function modalOpen(event) {
     };
 }
 
-function chooseGuide(event) {
+function chooseGuide(event) { //обработчик событий для кнопки в таблице гидов
     choosenGuide = event.target.id;
     event.target.innerHTML = 'Этот гид выбран';
     let modalBtn = document.querySelector('#modalBtn');
@@ -127,7 +127,7 @@ function chooseGuide(event) {
     guidePrice = event.target.price;
 }
 
-async function guidesForRouteLoad() {
+async function guidesForRouteLoad() { //функция отображения гидов для маршрута
     let guides;
     let api_key = "?api_key=35a7578a-4292-405f-845e-fce51f65ee57";
     let guiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/'
@@ -282,7 +282,7 @@ async function guidesForRouteLoad() {
     }
 }
 
-function pgnGuidesHandler(event) {
+function pgnGuidesHandler(event) { //обработчик событий для пагинации гидов
     guidePage = event.target.innerHTML - 1;
     guidesForRouteLoad();
     let guidesPlace = document.querySelector('.guides');
@@ -296,7 +296,7 @@ function pgnGuidesHandler(event) {
     }
 }
 
-function chooseRoute(event) {
+function chooseRoute(event) { //обработчик событий для кнопок выбора маршрута
     if (choosenRoute != undefined) {
         try {
             let choosenRouteBtn = document.getElementById(String(choosenRoute));
@@ -320,7 +320,7 @@ function chooseRoute(event) {
     guidesForRouteLoad(choosenRoute);
 }
 
-function routePgnHandler(event) {
+function routePgnHandler(event) { //обработчик событий для пагинации маршрутов
     routePage = event.target.innerHTML - 1;
     routesLoad();
     let routePgn = document.querySelector('.pagination');
@@ -332,7 +332,7 @@ function routePgnHandler(event) {
     }
 }
 
-function initPgnRoutes() {
+function initPgnRoutes() { //функция настройки отображения пагинации маршрутов
     let routesPgn = document.querySelector('.routePgn');
     let routePgnBtn = routesPgn.getElementsByTagName('a');
     routePgnBtn[0].className = 'page-link routePgn';
@@ -346,7 +346,7 @@ function initPgnRoutes() {
         routePgnBtn[2].classList.add('d-none');
     }
 };
-routesLoad = async function() {
+routesLoad = async function() { //функция отображения маршрутов
     let routes;
     let routesUrl = 'http://exam-2023-1-api.std-900.ist';
     routesUrl += '.mospolytech.ru/api/routes';
@@ -424,25 +424,25 @@ routesLoad = async function() {
     }
 };
 
-function objSelectChange(event) {
+function objSelectChange(event) { //обработчик событий для поиска маршрута
     let leng = event.target.value.length;
     routeObjSelect = event.target.value.substring(0, leng - 3);
     routePage = 0;
     routesLoad();
 }
 
-function searchNameInput(event) {
+function searchNameInput(event) { //обработчик событий для поиска маршрута
     routeNameSelect = event.target.value;
     routePage = 0;
     routesLoad();
 }
 
-function guideLangChange(event) {
+function guideLangChange(event) { //обработчик событий для поиска гида
     guideLangFilter = event.target.value;
     guidesForRouteLoad();
 }
 
-function changeGuideExp(event) {
+function changeGuideExp(event) { //обработчик событий для поиска гида
     if (event.target.id == 'guide-min') {
         guideExpMinFilter = event.target.value;
     } else {
@@ -455,9 +455,8 @@ function changeGuideExp(event) {
     }
 }
 
-window.onload = function() {
+window.onload = function() { //обработчик события загрузки страницы
     try {
-        let api_key = "35a7578a-4292-405f-845e-fce51f65ee57";
         routesLoad();
         let routePgn = document.querySelector('.routePgn');
         let routePgnBtn = routePgn.getElementsByTagName('a');
