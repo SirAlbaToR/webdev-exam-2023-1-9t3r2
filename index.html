@@ -77,62 +77,22 @@
         </div>
         <div class="container">
             <div class="mb-3">
-                <label for="selectAtt" class="form-label">Через какую
+                <label for="selectObj" class="form-label">Через какую
                     достопримечательность должен проходить маршрут?</label>
-                <select id="selectAtt" class="form-select">
-                    <option>Disabled select</option>
-                    <option>Disabled select2</option>
+                <select id="selectObj" class="form-select">
                 </select>
             </div>
         </div>
 
         <div class="map">карта</div>
 
-        <div class="container routes" id="routes">
-            <div class="route text-center">
-                <div class="name">Нескучный сад</div>
-                <div class="desc">Нескучный сад – старейший парк Москвы. В
-                    середине
-                    XVIII века здесь, в своём имении, известный московский
-                    миллионер
-                    Прокопий Демидов построил дворец, получивший название
-                    «Демидовский». На крутом берегу Москвы-реки он устроил
-                    насыпные
-                    террасы и разбил огромный сад с собранием более 2000 видов
-                    растений. При следующем владельце, графе А. Г.
-                    Орлове-Чесменском, на территории усадьбы появился целый ряд
-                    павильонов, беседок и различных садовых «затей», многие из
-                    которых сохранились до наших дней. Когда усадьбу купил
-                    император
-                    Николай I, он дал владению название Нескучный сад. Именно
-                    так
-                    называлось имение, принадлежавшее князю Н. Ю. Трубецкому, с
-                    большим парком, с зелеными лабиринтами, диковинными
-                    беседками и
-                    оранжереями.</div>
-                <div class="mainObj">Главная достопримечательность: Театр
-                    Горького</div>
-                <button type="button" class="btn btn-success">Выбрать этот
-                    маршрут</button>
-            
-            </div>
-        </div>
+        <div class="container routes" id="routes"></div>
         <div class="routePgn">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="#routes routePgn" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
                     <li class="page-item"><a class="page-link routePgn" href="#routes">1</a></li>
                     <li class="page-item"><a class="page-link routePgn" href="#routes">2</a></li>
                     <li class="page-item"><a class="page-link routePgn" href="#routes">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#routes routePgn" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
         </div>
@@ -163,34 +123,11 @@
                 </select>
             </div>
 
-            <div class="guides container" id="guides">
-                <ul class="list-group">
-                    <li class="guide d-flex justify-content-between
-                        list-group-item">
-                        <div class="name">Марвин Ватсон</div>
-                        <div class="lang">Корейский</div>
-                        <div class="price">3584 руб/ч</div>
-                        <div class="epx">6 лет</div>
-                        <button type="button" class="btn btn-success">Выбрать
-                            этого
-                            гида</button>
-                    </li>
+            <div class="guides container d-none" id="guides">
+                <ul class="list-group guides-list">
                 </ul>
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
+                    <ul class="pagination justify-content-center d-none">
                     </ul>
                 </nav>
             </div>
