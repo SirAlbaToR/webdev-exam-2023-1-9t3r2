@@ -12,6 +12,8 @@ let guideLangFilter = '';
 let guideExpMinFilter;
 let guideExpMaxFilter;
 let guidePrice;
+let createdExp = 0;
+let createdLang = 0;
 
 function errorMsg(error) { //функция вывода ошибки на экран
     let errorPlace = document.querySelector('#error-msg');
@@ -47,6 +49,12 @@ function modalOpen(event) { //функция работы с модальным 
     let timeStart;
     let timeStartPlace = workingSpace.querySelector('#inputTime');
     timeStartPlace.onchange = function(event) {
+        if (event.target.value.substring(0, 2) < 9) {
+            event.target.value = "09:00";
+        }
+        if (event.target.value.substring(0, 2) > 23) {
+            event.target.value = "23:00";
+        }
         if ((event.target.value.substring(0, 2) <= 12)
         && (event.target.value.substring(0, 2) >= 9)) {
             price += 400;
@@ -57,34 +65,59 @@ function modalOpen(event) { //функция работы с модальным 
         timeStart = event.target.value;
         pricePlace.innerHTML = price + ' рублей';
     };
+    let counterForOpt2 = 0;
     let numbersOfVisitors = 0;
     let numbersOfVisitorsPlace = workingSpace.querySelector('#inputPers');
     numbersOfVisitorsPlace.onchange = function(event) {
-        if ((event.target.value >= 5)
-        && (event.target.value < 10)) {
-            price += 1000;
-        } else if ((event.target.value >= 10) && event.target.value <= 20) {
-            price += 1500;
-        } else if (event.target.value > 20) {
-            errorMsg('tooMuchPeople');
-            return;
+        if ((numbersOfVisitors >= 5)
+        && (numbersOfVisitors < 10)) {
+            price -= 1000;
+        } else if ((numbersOfVisitors >= 10) && numbersOfVisitors <= 20) {
+            price -= 1500;
+        };
+        if (counterForOpt2 % 2 == 1) {
+            price = price - numbersOfVisitors * 500;
+            if (event.target.value > 20) {
+                event.target.value = 20;
+                errorMsg('tooMuchPeople');
+                price += 1500;
+            } else if ((event.target.value >= 10) && event.target.value <= 20) {
+                price += 1500;
+            } else if ((event.target.value >= 5)
+            && (event.target.value < 10)) {
+                price += 1000;
+            }
+            numbersOfVisitors = event.target.value;
+            price = price + numbersOfVisitors * 500;
+            pricePlace.innerHTML = price + ' рублей';
+        } else {
+            if (event.target.value > 20) {
+                event.target.value = 20;
+                errorMsg('tooMuchPeople');
+                price += 1500;
+            } else if ((event.target.value >= 10) && event.target.value <= 20) {
+                price += 1500;
+            } else if ((event.target.value >= 5)
+            && (event.target.value < 10)) {
+                price += 1000;
+            }
+            pricePlace.innerHTML = price + ' рублей';
+            numbersOfVisitors = event.target.value;
         }
-        pricePlace.innerHTML = price + ' рублей';
-        numbersOfVisitors = event.target.value;
+
     };
     let option1Place = workingSpace.querySelector('#option1');
     let counterForOpt1 = 0;
     option1Place.onchange = function(event) {
         counterForOpt1 += 1;
         if (counterForOpt1 % 2 == 1) {
-            price = price / 100 * 130;
+            price = Math.ceil(price / 100 * 130);
         } else {
-            price = (price / 1.3);
+            price = Math.ceil(price / 1.3);
         }
         pricePlace.innerHTML = price + ' рублей';
     };
     let option2Place = workingSpace.querySelector('#option2');
-    let counterForOpt2 = 0;
     option2Place.onchange = function(event) {
         counterForOpt2 += 1;
         if (counterForOpt2 % 2 == 1) {
@@ -140,52 +173,58 @@ async function guidesForRouteLoad() { //функция отображения г
         let guidesPlace = document.querySelector('#guides');
         let workingSpace = guidesPlace.querySelector('tbody');
         workingSpace.innerHTML = '';
-        let guidesLangSearched = ['Знание языков гидом'];
-        for (let i = 0; i < guides.length; i++) {
-            if (!guidesLangSearched.includes(guides[i].language)) {
-                guidesLangSearched.push(guides[i].language);
+        if (createdLang == 0) {
+            let guidesLangSearched = ['Знание языков гидом'];
+            for (let i = 0; i < guides.length; i++) {
+                if (!guidesLangSearched.includes(guides[i].language)) {
+                    guidesLangSearched.push(guides[i].language);
+                }
             }
-        }
-        guidesLangSearched.push('');
-        let guidesTablePlace = document.querySelector('#guides-table');
-        let guidesLangSelector = guidesTablePlace.querySelector('select');
-        guidesLangSelector.innerHTML = '';
-        for (let i = 0; i < guidesLangSearched.length; i++) {
-            let option = document.createElement('option');
-            let optionText = document.createTextNode(guidesLangSearched[i]);
-            option.appendChild(optionText);
-            guidesLangSelector.appendChild(option);
-        }
-        let guidesExpSearched = [];
-        let expMaxSelector = document.querySelector('#guide-max');
-        expMaxSelector.innerHTML = '';
-        let expMinSelector = document.querySelector('#guide-min');
-        expMinSelector.innerHTML = '';
-        for (let i = 0; i < guides.length; i++) {
-            if (!guidesExpSearched.includes(guides[i].workExperience)) {
-                guidesExpSearched.push(guides[i].workExperience);
+            guidesLangSearched.push('');
+            let guidesTablePlace = document.querySelector('#guides-table');
+            let guidesLangSelector = guidesTablePlace.querySelector('select');
+            guidesLangSelector.innerHTML = '';
+            for (let i = 0; i < guidesLangSearched.length; i++) {
+                let option = document.createElement('option');
+                let optionText = document.createTextNode(guidesLangSearched[i]);
+                option.appendChild(optionText);
+                guidesLangSelector.appendChild(option);
             }
+            createdLang += 1;
         }
-        let minGuideExp = Math.min.apply(Math, guidesExpSearched);
-        let maxGuideExp = Math.max.apply(Math, guidesExpSearched);
-        let optionMin = document.createElement('option');
-        let optionMinText = document.createTextNode('От');
-        optionMin.appendChild(optionMinText);
-        let optionMax = document.createElement('option');
-        let optionMaxText = document.createTextNode('До');
-        optionMax.appendChild(optionMaxText);
-        expMaxSelector.appendChild(optionMax);
-        expMinSelector.appendChild(optionMin); 
-        for (let i = minGuideExp; i <= maxGuideExp; i++) {
+        if (createdExp == 0) {
+            let guidesExpSearched = [];
+            let expMaxSelector = document.querySelector('#guide-max');
+            expMaxSelector.innerHTML = '';
+            let expMinSelector = document.querySelector('#guide-min');
+            expMinSelector.innerHTML = '';
+            for (let i = 0; i < guides.length; i++) {
+                if (!guidesExpSearched.includes(guides[i].workExperience)) {
+                    guidesExpSearched.push(guides[i].workExperience);
+                }
+            }
+            let minGuideExp = Math.min.apply(Math, guidesExpSearched);
+            let maxGuideExp = Math.max.apply(Math, guidesExpSearched);
             let optionMin = document.createElement('option');
-            let optionMinText = document.createTextNode(i);
+            let optionMinText = document.createTextNode('От');
             optionMin.appendChild(optionMinText);
             let optionMax = document.createElement('option');
-            let optionMaxText = document.createTextNode(i);
+            let optionMaxText = document.createTextNode('До');
             optionMax.appendChild(optionMaxText);
             expMaxSelector.appendChild(optionMax);
-            expMinSelector.appendChild(optionMin); 
-        };
+            expMinSelector.appendChild(optionMin);
+            for (let i = minGuideExp; i <= maxGuideExp; i++) {
+                let optionMin = document.createElement('option');
+                let optionMinText = document.createTextNode(i);
+                optionMin.appendChild(optionMinText);
+                let optionMax = document.createElement('option');
+                let optionMaxText = document.createTextNode(i);
+                optionMax.appendChild(optionMaxText);
+                expMaxSelector.appendChild(optionMax);
+                expMinSelector.appendChild(optionMin); 
+            };
+            createdExp += 1;
+        }
         let guidesSearched = [];
         for (let i = 0; i < guides.length; i++) {
             if (guides[i].language.includes(guideLangFilter)) {
@@ -309,6 +348,8 @@ function chooseRoute(event) { //обработчик событий для кн�
     let guideTable = document.querySelector('#guides-table');
     guideTable.className = 'input-group container';
     choosenGuide = '';
+    createdLang = 0;
+    createdExp = 0;
     guidePage = 0;
     guideExpMinFilter = 'От';
     guideExpMaxFilter = 'До';
@@ -445,12 +486,14 @@ function guideLangChange(event) { //обработчик событий для �
 function changeGuideExp(event) { //обработчик событий для поиска гида
     if (event.target.id == 'guide-min') {
         guideExpMinFilter = event.target.value;
+        
     } else {
         guideExpMaxFilter = event.target.value;
+        
     }
-    if ((guideExpMaxFilter != 'До' && guideExpMaxFilter != '') &&
-    (guideExpMinFilter != 'От' && guideExpMinFilter != '') &&
-    (guideExpMaxFilter >= guideExpMinFilter)) {
+    if ((guideExpMaxFilter != 'До') &&
+    (guideExpMinFilter != 'От') &&
+    (guideExpMaxFilter - guideExpMinFilter >= 0)) {
         guidesForRouteLoad();
     }
 }
@@ -471,7 +514,7 @@ window.onload = function() { //обработчик события загруз�
         let guideLangSelect = guidesTable.querySelector('select');
         guideLangSelect.onchange = guideLangChange;
         let guideMinExpSelect = document.querySelector('#guide-min');
-        guideMinExpSelect.onchange = changeGuideExp;
+        guideMinExpSelect.onclick = changeGuideExp;
         let guideMaxExpSelect = document.querySelector('#guide-max');
         guideMaxExpSelect.onclick = changeGuideExp;
         let modalBtn = document.querySelector('#modalBtn');
