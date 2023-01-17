@@ -96,8 +96,10 @@ function modalOpen(event){
             'date' : date,
             'time' : timeStart,
             'duration' : timeExcursion,
-            'persons' : numbersOfVisitors,
+            'persons' : Number(numbersOfVisitors),
             'price' :  price ,
+            'optionFirst' : counterForOpt1 % 2,
+            'optionSecond' : counterForOpt2 % 2,
         }
         let response = await fetch(url,{
             method: 'POST',
