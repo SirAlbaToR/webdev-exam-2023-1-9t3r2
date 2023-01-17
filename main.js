@@ -3,17 +3,118 @@ let routeObjSelect = String('');
 let routePage = 0;
 let amountOfPagesForRoutes;
 let choosenRoute;
+let choosenRouteName;
 let guidePage = 0;
 let choosenGuide;
+let choosenGuideName;
 let amountOfPagesForGuides;
 let guideLangFilter = '';
 let guideExpMinFilter;
 let guideExpMaxFilter;
+let guidePrice;
+
+function modalOpen(event){
+    let workingSpace = document.querySelector('.modal-body');
+    let guideNamePlace = workingSpace.querySelector('#guide-name');
+    guideNamePlace.innerHTML = choosenGuideName;
+    let routeNamePlace = workingSpace.querySelector('#route-name');
+    routeNamePlace.innerHTML = choosenRouteName;
+    let timeExc = workingSpace.querySelector('#excTime');
+    let price = guidePrice;
+    let pricePlace = workingSpace.querySelector('#all-price');
+    pricePlace.innerHTML = price + ' рублей';
+    let timeExcursion;
+    timeExc.onchange = function(event){
+        price = guidePrice * event.target.value;
+        pricePlace.innerHTML = price + ' рублей';
+        timeExcursion = event.target.value;
+    }
+    let datePlace = workingSpace.querySelector('#inputDate');
+    let date;
+    datePlace.onchange = function(event){
+        date = event.target.value;
+    }
+    let timeStart;
+    let timeStartPlace = workingSpace.querySelector('#inputTime')
+    timeStartPlace.onchange = function(event){
+        if((event.target.value.substring(0,2) <= 12)
+        && (event.target.value.substring(0,2) >= 9)){
+            price += 400;
+        }
+        else if((event.target.value.substring(0,2) <= 23) 
+        && event.target.value.substring(0,2) >= 20){
+            price += 1000;
+        }
+        timeStart = event.target.value;
+        pricePlace.innerHTML = price + ' рублей';
+    }
+    let numbersOfVisitors;
+    let numbersOfVisitorsPlace = workingSpace.querySelector('#inputPers')
+    numbersOfVisitorsPlace.onchange = function(event){
+        if((event.target.value >= 5)
+        && (event.target.value < 10)){
+            price += 1000;
+        }
+        else if((event.target.value >= 10)){
+            price += 1500;
+        }
+        pricePlace.innerHTML = price + ' рублей';
+        numbersOfVisitors = event.target.value;
+    }
+    let option1Place = workingSpace.querySelector('#option1');
+    let counterForOpt1 = 0;
+    option1Place.onchange = function(event){
+        counterForOpt1 += 1;
+        if(counterForOpt1 % 2 == 1){
+            price = price / 100 * 130;
+        }
+        else{
+            price = (price / 1.3);
+        }
+        pricePlace.innerHTML = price + ' рублей';
+    }
+    let option2Place = workingSpace.querySelector('#option2');
+    let counterForOpt2 = 0;
+    option2Place.onchange = function(event){
+        counterForOpt2 += 1;
+        if(counterForOpt2 % 2 == 1){
+            price = price + numbersOfVisitors * 500;
+        }
+        else{
+            price = price - numbersOfVisitors * 500;
+        }
+        pricePlace.innerHTML = price + ' рублей';
+    }
+    let sendBtn = document.querySelector('#send-btn');
+    sendBtn.onclick = async function(){
+        let url = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders'
+        let api_key = "?api_key=35a7578a-4292-405f-845e-fce51f65ee57"
+        url += api_key;
+        let body = {
+            'guide_id' : choosenGuide.substring(5),
+            'route_id' : choosenRoute,
+            'date' : date,
+            'time' : timeStart,
+            'duration' : timeExcursion,
+            'persons' : numbersOfVisitors,
+            'price' :  price ,
+        }
+        let response = await fetch(url,{
+            method: 'POST',
+            body: JSON.stringify(body),
+        });
+        let result = await response.json();
+        console.log(result.message);
+    }
+}
 
 function chooseGuide(event){
     choosenGuide = event.target.id;
     event.target.innerHTML = 'Этот гид выбран';
-    
+    let modalBtn = document.querySelector('#modalBtn');
+    modalBtn.className = 'container text-center';
+    choosenGuideName = event.target.name;
+    guidePrice = event.target.price;
 }
 
 function pgnGuidesHandler(event){
@@ -164,6 +265,8 @@ async function guidesForRouteLoad(){
                 else{
                     btnText = document.createTextNode('Выбрать этого гида')
                 }
+                btn.price = curentGuide.pricePerHour;
+                btn.name = curentGuide.name;
                 btn.type = 'button';
                 btn.className = 'btn btn-success';
                 btn.id = 'guide' + curentGuide.id;
@@ -194,6 +297,7 @@ function chooseRoute(event){
     }
     let guideTable = document.querySelector('#guides-table')
     guideTable.className = 'input-group container';
+    choosenGuide = '';
     guidePage = 0;
     guideExpMinFilter = 'От';
     guideExpMaxFilter = 'До';
@@ -201,6 +305,7 @@ function chooseRoute(event){
     guidesPlace.className = 'guides container';
     event.target.innerHTML = 'Этот маршрут выбран';
     choosenRoute = event.target.id;
+    choosenRouteName = event.target.name;
     guidesForRouteLoad(choosenRoute);
 }
 
@@ -295,6 +400,7 @@ routesLoad = async function(){
             }
             btn.appendChild(btnText);
             btn.type = 'button';
+            btn.name = curentRoute.name;
             btn.className = 'btn btn-success';
             btn.id = curentRoute.id;
             btn.onclick = chooseRoute;
@@ -357,6 +463,8 @@ window.onload = function(){
         guideMinExpSelect.onchange = changeGuideExp;
         let guideMaxExpSelect = document.querySelector('#guide-max');
         guideMaxExpSelect.onclick = changeGuideExp;
+        let modalBtn = document.querySelector('#modalBtn');
+        modalBtn.onclick = modalOpen;
     } catch(err){
 
     }

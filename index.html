@@ -84,8 +84,6 @@
             </div>
         </div>
 
-        <div class="map">карта</div>
-
         <div class="container routes" id="routes"></div>
         <div class="routePgn">
             <nav aria-label="Page navigation example">
@@ -147,7 +145,7 @@
         </div>
 
         <!-- Button trigger modal -->
-        <div class="container d-none">
+        <div class="container d-none text-center" id="modalBtn">
             <button type="button" class="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop">
@@ -170,18 +168,65 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal
-                            title</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Оформление
+                            заявки</h5>
                         <button type="button" class="btn-close"
                             data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        ...
+                        <div class="d-flex justify-content-between">
+                        <span id="guide-name"></span>
+                        <span id="route-name"></span>
+                        </div>
+                        <input type="date" id="inputDate"
+                            class="form-control"
+                            aria-describedby="searchHelpBlock">
+                        <div id="DateBlock" class="form-text mb-2">
+                            Дата экскурсии
+                        </div>
+                        <input type="time" id="inputTime" class="form-control"
+                        aria-describedby="searchHelpBlock">
+                        <div id="timeBlock" class="form-text mb-2">
+                            Время начала
+                        </div>
+                        <div class="form-text mb-2">
+                            <select class="form-select mb-3"
+                            aria-label=".form-select-lg example" id="excTime">
+                                <option value="1">1 час</option>
+                                <option value="2">2 часа</option>
+                                <option value="3">3 часа</option>
+                            </select>
+                        </div>
+                        <input type="text" id="inputPers" class="form-control"
+                        aria-describedby="searchHelpBlock">
+                        <div id="persBlock" class="form-text mb-2">
+                            Количество человек
+                        </div>
+                        <div class="container mt-4">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="checkbox" id="option1" class="form-check-input">
+                                    <div id="option1Help" class="form-text mb-2">
+                                        Быстрый выезд гида (в течении часа). Повышает стоимость на 30%
+                                    </div>
+                                    <div id="option1Price" class="form-text mb-2"></div>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="checkbox" id="option2">
+                                    <div id="option2Help" class="form-text mb-2">
+                                        Тематические сувениры для посетителей.
+                                        Стоимость увеличивается на 500 рублей для каждого посетителя
+                                    </div>
+                                    <div id="option2Price" class="form-text mb-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-text mb-2" id="all-price"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
+                            data-bs-dismiss="modal">Отменить</button>
+                        <button type="button" class="btn btn-primary" id="send-btn">Заказать</button>
                     </div>
                 </div>
             </div>
