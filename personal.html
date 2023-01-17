@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="personal.js" defer></script>
+        <title>Hello company</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-red mb-3">
+            <div class="container-fluid">
+                <i class="fa-solid fa-globe me-2"></i>
+                <a class="navbar-brand" href="#">Hello company</a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="index.html">О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#routes">Маршруты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="personal.html">Личный кабинет</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Длительность</th>
+                        <th scope="col">Время</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="MyModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Оформление
+                        заявки</h5>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between">
+                    <span id="guide-name"></span>
+                    <span id="route-name"></span>
+                    </div>
+                    <input type="date" id="inputDate"
+                        class="form-control"
+                        aria-describedby="searchHelpBlock">
+                    <div id="DateBlock" class="form-text mb-2">
+                        Дата экскурсии
+                    </div>
+                    <input type="time" id="inputTime" class="form-control"
+                    aria-describedby="searchHelpBlock">
+                    <div id="timeBlock" class="form-text mb-2">
+                        Время начала
+                    </div>
+                    <div class="form-text mb-2">
+                        <select class="form-select mb-3"
+                        aria-label=".form-select-lg example" id="excTime">
+                            <option value="1">1 час</option>
+                            <option value="2">2 часа</option>
+                            <option value="3">3 часа</option>
+                        </select>
+                    </div>
+                    <input type="text" id="inputPers" class="form-control"
+                    aria-describedby="searchHelpBlock">
+                    <div id="persBlock" class="form-text mb-2">
+                        Количество человек
+                    </div>
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col">
+                                <input type="checkbox" id="option1" class="form-check-input">
+                                <div id="option1Help" class="form-text mb-2">
+                                    Быстрый выезд гида (в течении часа). Повышает стоимость на 30%
+                                </div>
+                                <div id="option1Price" class="form-text mb-2"></div>
+                            </div>
+                            <div class="col">
+                                <input class="form-check-input" type="checkbox" id="option2">
+                                <div id="option2Help" class="form-text mb-2">
+                                    Тематические сувениры для посетителей.
+                                    Стоимость увеличивается на 500 рублей для каждого посетителя
+                                </div>
+                                <div id="option2Price" class="form-text mb-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-text mb-2" id="all-price"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="https://kit.fontawesome.com/8be9e26b82.js"
+            crossorigin="anonymous"></script>
+    </body>
+</html>
